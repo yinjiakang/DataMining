@@ -31,14 +31,14 @@ if __name__ == "__main__":
     #权重
     w = np.zeros((20, col))
     #偏倚值
-    theta = np.zeros((20, 1))
+    theta = list()
     otptheta = 0.2
     #学习率
     l = 0.4
     #隐藏层权重
-    Midx = np.zeros((20, 1))
-    Midw = np.zeros((20, 1))
-    ErrX = np.zeros((20, 1))
+    Midx = list()
+    Midw = list()
+    ErrX = list()
 
     #初始化权重
     for i in range(20):
@@ -47,8 +47,10 @@ if __name__ == "__main__":
 
     #初始化偏倚值
     for i in range(20):
-        theta[i][0] = 0.2
-        Midw[i][0] = 0.1
+        theta.append(0.2)
+        Midw.append(0.1)
+        Midx.append(0)
+        ErrX.append(0)
 
     for k in range(10):
         print k
@@ -64,9 +66,9 @@ if __name__ == "__main__":
 
                 #print SumWijXi, np.sum(SumWijXi), theta[wi][0]
 
-                Ii = np.sum(SumWijXi) + theta[wi][0]
+                Ii = np.sum(SumWijXi) + theta[wi]
                 #隐藏层X值
-                Midx[wi][0] = 1.0 / (1 + (e)**((-1) * Ii))
+                Midx[wi] = 1.0 / (1 + (e)**((-1) * Ii))
 
                 #print Midx[wi][0]
 
@@ -94,16 +96,16 @@ if __name__ == "__main__":
             
             for ei in range(20):
                 #隐藏层差值
-                ErrX[ei][0] = Midx[ei][0] * (1 - Midx[ei][0]) * ErrOtp * Midw[ei][0]
+                ErrX[ei] = Midx[ei] * (1 - Midx[ei]) * ErrOtp * Midw[ei]
                 #隐藏层权重更新
-                Midw[ei][0] += l * ErrOtp * Midx[ei][0]
+                Midw[ei] += l * ErrOtp * Midx[ei]
                 #隐藏层偏倚值更新.
-                theta[ei][0] += l * ErrX[ei][0]
+                theta[ei] += l * ErrX[ei]
 
             for wi in range(20):
                 for ci in range(col):
                     #输入层权重更新
-                    w[wi][ci] += l * ErrX[wi][0] * data[r][ci]
+                    w[wi][ci] += l * ErrX[wi] * data[r][ci]
 
             
 
@@ -115,14 +117,14 @@ if __name__ == "__main__":
     for r in range(testdata):
         for wi in range(20):
             # Wij * xi
-            SumWijXi = np.multiply(testdata[r], w[wi])
-            Ii = np.sum(SumWijXi) + theta[wi][0]
+            EndSumWijXi = np.multiply(testdata[r], w[wi])
+            Ii = np.sum(EndSumWijXi) + theta[wi]
             #隐藏层X值
-            Midx[wi][0] = (1 + (np.e)**(-Ii))**(-1)
+            Midx[wi] = (1 + (e)**(-Ii))**(-1)
 
 
         outputI = np.sum(np.multiply(Midx, Midw)) + otptheta
-        outputX = (1 + (np.e)**(-outputI))**(-1)
+        outputX = (1 + (e)**(-outputI))**(-1)
 
         writer.writerow([resrow, outputX * (refermax - refermin) + refermin])
         resrow += 1
