@@ -1,5 +1,5 @@
 import sys
-import numpy as py
+import numpy as np
 from math import *
 
 
@@ -33,7 +33,7 @@ if __name__ == "__main__":
     outputTheta = np.random.rand()
 
     l = 0.4
-    iteration = 100
+    iteration = 10
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
