@@ -33,7 +33,7 @@ if __name__ == "__main__":
     outputTheta = np.random.rand()
 
     l = 0.4
-    iteration = 10
+    iteration = 30
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
@@ -79,8 +79,8 @@ if __name__ == "__main__":
     #testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 6), max_rows=7)
     testM = testData.shape[0]
 
-    testHidden = sigmoid(np.dot(testData, weight0) + hiddenTheta)
-    testOutput = sigmoid(np.dot(testHidden, weight1) + outputTheta)
+    testHidden = sigmoid(np.dot(testData, hiddenWeight) + hiddenTheta)
+    testOutput = sigmoid(np.dot(testHidden, outputWeight) + outputTheta)
     testOutput = testOutput * (maxNumber - minNumber) + minNumber
 
     with open('ans', 'w') as file:
