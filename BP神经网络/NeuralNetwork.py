@@ -33,7 +33,7 @@ if __name__ == "__main__":
     outputTheta = np.random.rand()
 
     l = 0.4
-    iteration = 30
+    iteration = 1000
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
@@ -71,8 +71,10 @@ if __name__ == "__main__":
         J = np.sum(np.square(output - refer)) / (row * 2)
 
         if J > lastJ:
-            break
-        lastJ = J
+            l = l / 2
+            if l < 0.05:
+                break
+        lastK = J
         print i, J
 
     testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 385))
