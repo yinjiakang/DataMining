@@ -25,15 +25,15 @@ if __name__ == "__main__":
 
     y = (y - minNumber) / (maxNumber - minNumber)
 
-    nodes = ceil(sqrt(col))
-
+    #nodes = ceil(sqrt(col))
+    nodes = 80
     hiddenWeight = np.random.rand(col, nodes)
     outputWeight = np.random.rand(nodes, 1)
     hiddenTheta = np.random.rand(1, nodes)
     outputTheta = np.random.rand()
 
     l = 0.4
-    iteration = 1000
+    iteration = 2000
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
