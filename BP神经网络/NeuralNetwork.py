@@ -26,14 +26,14 @@ if __name__ == "__main__":
     y = (y - minNumber) / (maxNumber - minNumber)
 
     #nodes = ceil(sqrt(col))
-    nodes = 80
+    nodes = 40
     hiddenWeight = np.random.rand(col, nodes)
     outputWeight = np.random.rand(nodes, 1)
     hiddenTheta = np.random.rand(1, nodes)
     outputTheta = np.random.rand()
 
     l = 0.4
-    iteration = 2000
+    iteration = 6000
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
@@ -72,10 +72,10 @@ if __name__ == "__main__":
 
         if J > lastJ:
             l = l / 2
-            if l < 0.05:
+            if l <= 0.02:
                 break
-        lastK = J
-        print i, J
+        lastJ = J
+        print (i, J)
 
     testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 385))
     #testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 6), max_rows=7)
@@ -85,7 +85,7 @@ if __name__ == "__main__":
     testOutput = sigmoid(np.dot(testHidden, outputWeight) + outputTheta)
     testOutput = testOutput * (maxNumber - minNumber) + minNumber
 
-    with open('ans', 'w') as file:
+    with open('ans.csv', 'w') as file:
         file.write("id,reference\n")
         for i in range(0, testM):
             file.write("%d,%f\n" %(i, testOutput[i]))
