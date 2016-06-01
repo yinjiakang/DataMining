@@ -1,4 +1,5 @@
 import sys
+from numpy import *
 import numpy as np
 from math import *
 
@@ -25,15 +26,39 @@ if __name__ == "__main__":
 
     y = (y - minNumber) / (maxNumber - minNumber)
 
-    #nodes = ceil(sqrt(col))
-    nodes = 40
-    hiddenWeight = np.random.rand(col, nodes)
-    outputWeight = np.random.rand(nodes, 1)
-    hiddenTheta = np.random.rand(1, nodes)
-    outputTheta = np.random.rand()
 
+    
+    #nodes = ceil(sqrt(col))
+    nodes = 160
+
+
+    """
+    hiddenWeight = np.random.randn(col, nodes) * 0.01
+    outputWeight = np.random.randn(nodes, 1) * 0.01
+    hiddenTheta = np.zeros((1, nodes),  dtype=np.float)
+    outputTheta = 0
+    
+
+    """
+
+    hiddenWeight = np.genfromtxt("hiddenWeight.csv", delimiter=',')
+    outputWeight = np.genfromtxt("outputWeight.csv", delimiter=',')    
+    hiddenTheta = np.genfromtxt("hiddenTheta.csv", delimiter=',', usecols = range(0, nodes))
+    outputT = np.genfromtxt("outputTheta.csv", delimiter=',', usecols = (0))
+    #getL = np.genfromtxt("l.csv", delimiter=',', usecols = (0))
+    
+    outputWeight = outputWeight.reshape(nodes, 1)
+    hiddenWeight = hiddenWeight.reshape(col, nodes)
+    hiddenTheta = hiddenTheta.reshape(1, nodes)
+    outputTheta = array([outputT])
+    outputTheta = outputTheta.reshape(1,1)
+    #l = array([getL])
+    #l = l.reshape(1,1)
+    
+
+    """
     l = 0.4
-    iteration = 6000
+    iteration = 3000
     lastJ = sys.maxsize
 
     for i in range(0, iteration):
@@ -77,6 +102,10 @@ if __name__ == "__main__":
         lastJ = J
         print (i, J)
 
+
+    """
+
+
     testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 385))
     #testData = np.genfromtxt("test.csv", delimiter=',', skip_header=1, usecols=range(1, 6), max_rows=7)
     testM = testData.shape[0]
@@ -89,4 +118,29 @@ if __name__ == "__main__":
         file.write("id,reference\n")
         for i in range(0, testM):
             file.write("%d,%f\n" %(i, testOutput[i]))
+
+
+    """
+
+    with open('hiddenWeight.csv', 'w') as File:
+        for i in range (0, col):
+            for j in range(0, nodes - 1):
+                File.write("%.10f," %hiddenWeight[i][j])
+            File.write("%.10f\n" %hiddenWeight[i][nodes - 1])
+        
+    with open('outputWeight.csv', 'w') as File:
+        for i in range(0, nodes - 1):
+            File.write("%.10f," %outputWeight[i][0])
+        File.write("%.10f\n" %outputWeight[nodes - 1][0])
+
+    with open('hiddenTheta.csv', 'w') as File:
+        for i in range(0, nodes):
+            File.write("%.10f," %hiddenTheta[0][i])
      
+    with open('outputTheta.csv', 'w') as File:
+        File.write("%.10f," %outputTheta)
+
+    with open('l.csv', 'w') as File:
+        File.write("%.10f," %l)
+    """
+    
